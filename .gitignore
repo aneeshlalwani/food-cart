@@ -1,0 +1,55 @@
+# .gitignore
+
+# Ignore operating system files
+.DS_Store
+ehthumbs.db
+Thumbs.db
+
+# Ignore IDE files
+.vscode/
+.idea/
+*.iml
+
+# Ignore compiler output
+*.class
+*.exe
+*.o
+*.obj
+
+# Ignore package files
+*.zip
+*.rar
+*.tar
+*.gz
+*.bz2
+
+# Ignore logs
+*.log
+*.tmp
+
+# Ignore node modules
+node_modules/
+
+# Ignore python cache
+__pycache__/
+
+# Ignore java build files
+target/
+build/
+
+# Ignore maven repository
+.m2/
+
+# Ignore gradle cache
+.gradle/
+
+# Ignore eclipse metadata
+.metadata/
+
+# Ignore intellij project files
+*.ipr
+*.iws
+*.iml
+
+# Ignore visual studio code settings
+.vscode/settings.json
