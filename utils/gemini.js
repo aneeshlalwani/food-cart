@@ -1,7 +1,10 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import dotenv from 'dotenv';
-dotenv.config();
+import {calculateExpenses, TotalExpenses } from "../calculators/calculateExpense.js";
+import calculatePNL from "../calculators/calculatePNL.js";
 
+dotenv.config();
+// GEMINI API
 const API_KEY = process.env.GEMINI_API_KEY;
 
 export async function getResponseFromLLM(prompt) {
@@ -10,33 +13,36 @@ export async function getResponseFromLLM(prompt) {
         const genAI = new GoogleGenerativeAI(API_KEY);
         const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-        // Get the result from the LLM
+        // Getting result from LLM
         const result = await model.generateContent(prompt);
-
-        // Extract JSON from markdown
+        // Extracting JSON from markdown, which is response from LLM
         const jsonResponse = extractJSONFromMarkdown(result.response.text().toLowerCase());
         
-        // Parse the JSON string to an object
+        // Parsing the json string to an object
         let parsedData;
         try {
-            parsedData = JSON.parse(jsonResponse); // Parse the JSON string
+            parsedData = JSON.parse(jsonResponse);
         } catch (error) {
             console.log("Error parsing JSON:", error.message);
             return;
         }
-
-        // Access the revenue and item expenses
-        const revenue = parsedData?.revenue; // Safe access with optional chaining
-        const date = parsedData?.date;
-        const calculatedExpensesOnEachItem = parsedData?.solditems;
-        console.log(date)
-        console.log("Revenue:", revenue);
-        console.log("Expense Object:",calculatedExpensesOnEachItem);
-        // console.log("Item Expenses:", itemExpenses);
-        
-        // Log the structured data (if needed)
-        // console.log(parsedData);
         console.log(jsonResponse);
+        const calculatedExpensesOnEachItem = calculateExpenses(parsedData?.solditems);
+        console.log("Expenses on each food Item:",calculatedExpensesOnEachItem);
+        const totalExpense = TotalExpenses(calculatedExpensesOnEachItem);
+        console.log(`Total Expense : ${totalExpense}`);
+        const revenue = parsedData?.revenue;
+        console.log("Revenue:", revenue);
+        const date = parsedData?.date;
+        console.log(`Date : ${date}`)
+        const pnl = calculatePNL(revenue, totalExpense);
+        if(pnl.profit){
+            console.log(`Profit : ${pnl.profit}`);
+        } else {
+            console.log(`Loss : ${pnl.loss}`);
+        }
+        
+        
     } catch (error) {
         console.log("Error:", error.message);
     }
