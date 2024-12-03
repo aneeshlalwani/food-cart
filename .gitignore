@@ -6,6 +6,7 @@ ehthumbs.db
 Thumbs.db
 
 # Ignore IDE files
+.env
 .vscode/
 .idea/
 *.iml
