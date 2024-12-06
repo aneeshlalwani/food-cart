@@ -36,11 +36,12 @@ export async function getResponseFromLLM(prompt) {
         const date = parsedData?.date;
         console.log(`Date : ${date}`)
         const pnl = calculatePNL(revenue, totalExpense);
-        if(pnl.profit){
-            console.log(`Profit : ${pnl.profit}`);
-        } else {
-            console.log(`Loss : ${pnl.loss}`);
-        }
+        console.log(pnl);
+        // if(pnl.profit){
+        //     console.log(`Profit : ${pnl.profit}`);
+        // } else {
+        //     console.log(`Loss : ${pnl.loss}`);
+        // }
         
         
     } catch (error) {
