@@ -24,26 +24,22 @@ const sendDataToSheet = async(data) =>{
         await axios.post(PNL_SHEET_URL, pnlData);
         console.log('Data has been Sent!');
         // Processing Expenses Data
-        for(const itemName in data.solditems){
-            const item = data.solditems[itemName];
-                
-            for(const category in item){
-                const cost = item[category];
-                
+        for(const foodItem in data.solditems){
+            const item = data.solditems[foodItem];
+            for(const itemName in item){
+                const cost = item[itemName];
                 const expenses = {
-                    Date:data.date,
-                    'Item Name':itemName,
-                    Category:category,
-                    Cost:cost,
-                }
-                console.log(expenses);
+                    Date: data.date,
+                    Category: foodItem,
+                    'Item Name': itemName, 
+                    Cost: cost,
+                };
                 // Posting Data to Expenses Sheet 
                 await axios.post(EXPENSE_SHEET_URL, expenses);
                 console.log('expense sent')
                 
             }
         }
-
      } catch (error) {
         console.log(error.message);
      }   
