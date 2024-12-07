@@ -1,4 +1,4 @@
 export default function calculatePNL(revenue, totalExpense){
-    const calculation = revenue - totalExpense;
-    return `Profit : ${calculation}`;
+    const profitAndLoss = revenue - totalExpense;
+    return profitAndLoss;
 }
