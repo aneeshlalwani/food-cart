@@ -1,6 +1,7 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import dotenv from 'dotenv';
-import sendDataToSheet from "./googleSheet.js";
+import postDataToSpreadsheet from "./sheetAPI.js";
+
 dotenv.config();
 // GEMINI API
 const API_KEY = process.env.GEMINI_API_KEY;
@@ -20,11 +21,11 @@ export async function getResponseFromLLM(prompt) {
         let parsedData;
         try {
             parsedData = JSON.parse(jsonResponse);
+            postDataToSpreadsheet(parsedData);
         } catch (error) {
             console.log("Error parsing JSON:", error.message);
             return;
         }
-        sendDataToSheet(parsedData);
         
     } catch (error) {
         console.log("Error:", error.message);
